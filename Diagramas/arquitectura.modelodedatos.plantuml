@@ -1,0 +1,49 @@
+@startuml
+!include https://raw.githubusercontent.com/plantuml-stdlib/C4-PlantUML/master/C4_Component.puml
+' uncomment the following line and comment the first to use locally
+' !include C4_Component.puml
+
+LAYOUT_WITH_LEGEND()
+
+title Diagrama de componentes - Finance APP
+
+Container(spa, "Web App - Finance", "javascript and angular", "Provee todas las funcionalidades que se incluyen en la aplicación y por medio de la cual el usuario accede desde el navegador.")
+Container(ma, "Mobile App - Finance", "Ionic", "Provee funcionalidades necesarias de la aplicacion Finance en un acceso de dispositivos mobiles")
+ContainerDb(db, "Database", "MariaDB - Relational Database Schema", "Provee la gestion de la gestión de los datos definidos en la aplicación finance APP.")
+
+
+Container_Boundary(api, "API Backend Application") {
+    Component(sign, "Auth Controller", "MVC Rest Controller", "Permite a los usuarios poder ingresar a la aplicación")
+    Component(spent, "Spent Summary Controller", "MVC Rest Controller", "Provee al cliente la funcionalidad de gastos")
+    Component(income, "Income Controller", "MVC Rest Controller", "Provee la funcionalalidad de gestion de ingresos")
+    Component(dashboard, "Dashboard Controller", "Provee estadisticas especificas de la cuenta de usuario")
+
+    Component(security, "Metodo de Autenticado", "User/Password - Basic Auth", "Habilita la funcionalidad de autenticado para los usuarios")
+    Component(spentService, "Spent Service","Service/Repository","Habilita la capa para manejo de datos")
+    Component(dashboardService, "Dashboard Service","Service/Repository", "Habilita la capa de manejo de datos para dashboard")
+    Component(incomeService, "Income Service","Service/Repository", "Habilita la capa de manejo de datos para ingresos")
+    
+    Rel(sign, security, "Uses", "ORM")
+    Rel(spent, spentService, "Uses", "Service/Repository")
+    Rel(dashboard, dashboardService, "Uses", "Service/Repository")
+    Rel(income, incomeService, "Uses", "Service/Repository")
+
+
+    Rel(incomeService, db,  "Read & write to", "ORM")
+    Rel(dashboardService, db,  "Read & write to", "ORM")
+    Rel(spentService, db,  "Read & write to", "ORM")
+    Rel(security, db, "Read & write to", "ORM")
+    
+}
+
+Rel(spa, sign, "Uses", "JSON/HTTPS")
+Rel(spa, spent, "Uses", "JSON/HTTPS")
+Rel(spa, income, "Uses", "JSON/HTTPS")
+Rel(spa, dashboard, "Uses", "JSON/HTTPS")
+
+Rel(ma, sign, "Uses", "JSON/HTTPS")
+Rel(ma, spent, "Uses", "JSON/HTTPS")
+Rel(ma, income, "Uses", "JSON/HTTPS")
+Rel(ma, dashboard, "Uses", "JSON/HTTPS")
+
+@enduml

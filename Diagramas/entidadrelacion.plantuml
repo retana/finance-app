@@ -1,0 +1,31 @@
+@startuml
+
+' Definición de entidades
+entity "User" as user {
+    * id : INT
+    --
+    username : STRING
+    password : STRING
+    active : BOOLEAN
+}
+
+entity "Transaction" as transaction {
+    * id : INT
+    --
+    amount : DECIMAL
+    date : DATE
+    description : STRING
+}
+
+entity "Category" as category {
+    * id : INT
+    --
+    name : STRING
+    description : STRING
+}
+
+' Relaciones
+user "1" -- "0..*" transaction : "makes"
+transaction "0..1" -- "1" category : "classified as"
+
+@enduml

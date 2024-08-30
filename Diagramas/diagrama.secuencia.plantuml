@@ -1,0 +1,48 @@
+@startuml
+title Secuencia Finance App
+
+==== Autenticado de Usuario ==
+user -> frontend as "WebApp/MobileApp": Ingresa al sistema [user/password]
+activate user
+activate frontend
+frontend -> backend as "REST API": solicita validar credenciales
+activate backend
+backend -> DB as "Maria DB": verifica credenciales
+activate DB
+DB --> backend: Responde informacion
+deactivate DB
+backend -> backend: Valida informacion obtenida vs credenciales enviadas
+backend -> frontend: Responde el resultado de la validación
+deactivate backend
+
+alt Autenticado Valido
+    frontend -> user: Redirecciona a pagina de dashboard
+else Autenticado no Valido
+    frontend -> user: Muestra error de autenticado
+end
+deactivate frontend
+
+=== Opcion de Ingresos ==
+user -> frontend: "Selecciona opcion de menu Ingresos"
+activate frontend
+frontend -> backend: Solicita ingresos 
+activate backend
+backend -> DB: Consulta ingresos de usuario <<Mes>>
+activate DB
+DB --> backend: Responde consulta
+deactivate DB
+backend --> frontend: Lista Ingresos consultados
+deactivate backend
+frontend -> user: Muestra pagina de "ingresos" con informacion de usuario
+deactivate frontend
+deactivate user
+
+=== Opcion de Gastos ==
+user -> frontend: Selecciona la opcion del menu "Gastos"
+activate user
+activate frontend
+frontend --> user: Muestra la pantalla de gastos
+deactivate frontend
+deactivate user
+
+@enduml
