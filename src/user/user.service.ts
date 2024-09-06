@@ -25,4 +25,9 @@ export class UserService {
         const newItem = this.userRepository.create(item);
         return await this.userRepository.save(newItem);
     }
+
+    async findByUsername(username: string): Promise<User | undefined> {
+        return this.userRepository.findOne({where: {username}});
+    }
+
 }
