@@ -1,27 +1,47 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Transaction } from './transaction.entity';
 import { Repository } from 'typeorm';
+import { Transaction } from './transaction.entity';
 
 @Injectable()
 export class TransactionService {
-    constructor(
-        @InjectRepository(Transaction)
-        private transactionRepository: Repository<Transaction>
-    ){
+  constructor(
+    @InjectRepository(Transaction)
+    private transactionRepository: Repository<Transaction>,
+  ) {}
 
-    }
-    findAll():Promise<Transaction[]>{
-        return this.transactionRepository.find();
-    }
+  async findAll(): Promise<Transaction[]> {
+    return await this.transactionRepository.find();
+  }
 
-    findOne(id: number): Promise<Transaction>{
-        return this.transactionRepository.findOneBy({id});
+  async findOne(id: number): Promise<Transaction> {
+    const transaction = await this.transactionRepository.findOne({ where: { id } });
+    if (!transaction) {
+      throw new NotFoundException(`Transacción con id ${id} no encontrada`);
     }
+    return transaction;
+  }
 
-    async create(item: Partial<Transaction>):Promise<Transaction>{
-        const newItem = this.transactionRepository.create(item);
-        return await this.transactionRepository.save(newItem);
+  async create(transactionData: Partial<Transaction>): Promise<Transaction> {
+    const transaction = this.transactionRepository.create(transactionData);
+    return await this.transactionRepository.save(transaction);
+  }
+
+  async update(id: number, updateData: Partial<Transaction>): Promise<Transaction> {
+    const transaction = await this.transactionRepository.preload({
+      id,
+      ...updateData,
+    });
+    if (!transaction) {
+      throw new NotFoundException(`Transacción con id ${id} no encontrada`);
     }
+    return await this.transactionRepository.save(transaction);
+  }
 
+  async delete(id: number): Promise<void> {
+    const result = await this.transactionRepository.delete(id);
+    if (result.affected === 0) {
+      throw new NotFoundException(`Transacción con id ${id} no encontrada`);
+    }
+  }
 }

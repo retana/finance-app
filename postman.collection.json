@@ -1,0 +1,325 @@
+{
+    "info": {
+      "name": "API de Finanzas",
+      "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+    },
+    "item": [
+      {
+        "name": "Auth",
+        "item": [
+          {
+            "name": "Login",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"username\": \"testuser\",\n  \"password\": \"testpassword\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/auth/login",
+                "host": ["{{baseUrl}}"],
+                "path": ["auth", "login"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Profile",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/auth/profile",
+                "host": ["{{baseUrl}}"],
+                "path": ["auth", "profile"]
+              }
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "User",
+        "item": [
+          {
+            "name": "Create User",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"username\": \"newuser\",\n  \"password\": \"password\",\n  \"active\": true\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/user",
+                "host": ["{{baseUrl}}"],
+                "path": ["user"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get All Users",
+            "request": {
+              "method": "GET",
+              "url": {
+                "raw": "{{baseUrl}}/user",
+                "host": ["{{baseUrl}}"],
+                "path": ["user"]
+              }
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Transaction",
+        "item": [
+          {
+            "name": "Create Transaction",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"amount\": 100,\n  \"date\": \"2024-09-10\",\n  \"description\": \"Compra de alimentos\",\n  \"user\": 1,\n  \"category\": 1\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/transactions",
+                "host": ["{{baseUrl}}"],
+                "path": ["transactions"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get All Transactions",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/transactions",
+                "host": ["{{baseUrl}}"],
+                "path": ["transactions"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Transaction by ID",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/transactions/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["transactions", "1"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Update Transaction",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"amount\": 150,\n  \"date\": \"2024-09-11\",\n  \"description\": \"Compra de ropa\",\n  \"user\": 1,\n  \"category\": 2\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/transactions/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["transactions", "1"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Delete Transaction",
+            "request": {
+              "method": "DELETE",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/transactions/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["transactions", "1"]
+              }
+            },
+            "response": []
+          }
+        ]
+      },
+      {
+        "name": "Category",
+        "item": [
+          {
+            "name": "Create Category",
+            "request": {
+              "method": "POST",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"description\": \"Entretenimiento\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/categories",
+                "host": ["{{baseUrl}}"],
+                "path": ["categories"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get All Categories",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/categories",
+                "host": ["{{baseUrl}}"],
+                "path": ["categories"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Get Category by ID",
+            "request": {
+              "method": "GET",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/categories/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["categories", "1"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Update Category",
+            "request": {
+              "method": "PUT",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                },
+                {
+                  "key": "Content-Type",
+                  "value": "application/json"
+                }
+              ],
+              "body": {
+                "mode": "raw",
+                "raw": "{\n  \"description\": \"Salud\"\n}"
+              },
+              "url": {
+                "raw": "{{baseUrl}}/categories/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["categories", "1"]
+              }
+            },
+            "response": []
+          },
+          {
+            "name": "Delete Category",
+            "request": {
+              "method": "DELETE",
+              "header": [
+                {
+                  "key": "Authorization",
+                  "value": "Bearer {{token}}"
+                }
+              ],
+              "url": {
+                "raw": "{{baseUrl}}/categories/1",
+                "host": ["{{baseUrl}}"],
+                "path": ["categories", "1"]
+              }
+            },
+            "response": []
+          }
+        ]
+      }
+    ],
+    "variable": [
+      {
+        "key": "baseUrl",
+        "value": "http://localhost:3000"
+      },
+      {
+        "key": "token",
+        "value": ""
+      }
+    ]
+  }
+  

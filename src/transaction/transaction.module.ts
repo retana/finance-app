@@ -9,6 +9,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
     TypeOrmModule.forFeature([Transaction])
   ],
   controllers: [TransactionController],
-  providers: [TransactionService]
+  providers: [TransactionService],
+  exports: [TypeOrmModule], // Asegúrate de exportar TypeOrmModule
 })
 export class TransactionModule {}

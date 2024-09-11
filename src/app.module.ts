@@ -23,14 +23,14 @@ import { Category } from './category/category.entity';
       entities: [
         User,
       Transaction,
-    Category],
+      Category],
       synchronize: true,
     }),
     UserModule,
     AuthModule,
-    TransactionModule,
-    CategoryModule],
+    CategoryModule,
+    TransactionModule],
   controllers: [AppController],
-  providers: [AppService, CategoryService],
+  providers: [AppService],
 })
 export class AppModule {}
