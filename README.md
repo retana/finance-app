@@ -1,73 +1,311 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo-small.svg" width="200" alt="Nest Logo" /></a>
-</p>
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+# Proyecto de Finanzas API - README
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
+Este proyecto es una aplicación de finanzas que permite gestionar categorías, transacciones y usuarios, con autenticación JWT implementada.
 
-## Description
+## Requisitos previos
 
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
+Antes de comenzar, asegúrate de tener instalado lo siguiente:
 
-## Installation
+Node.js (versión 14.x o superior)
+
+NPM (viene junto con Node.js)
+
+PostgreSQL (o la base de datos que vayas a utilizar)
+
+## Configuración del proyecto
+
+1. Clonar el repositorio
+
+Clona este repositorio en tu máquina local:
+
+  
 
 ```bash
-$ npm install
+git clone <url_del_repositorio>
+
+cd <nombre_del_repositorio>
 ```
 
-## Running the app
+2. Instalar dependencias
+
+Ejecuta el siguiente comando para instalar las dependencias del proyecto:
 
 ```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+npm install
 ```
+3. Configurar la base de datos
 
-## Test
+Asegúrate de que tu base de datos PostgreSQL esté en funcionamiento y crea una base de datos para el proyecto. Luego, configura el acceso a la base de datos en el archivo ormconfig.json o app.module.ts si estás usando TypeORM:
+
+  
+
+```json
+{
+"type": "postgres",
+"host": "localhost",
+"port": 5432,
+"username": "tu_usuario",
+"password": "tu_contraseña",
+"database": "nombre_de_tu_base_de_datos",
+"entities": ["dist/**/*.entity{.ts,.js}"],
+"synchronize": true
+
+}
+```
+4. Ejecutar la migración (opcional)
+
+Si tienes migraciones para la base de datos, puedes ejecutarlas con el siguiente comando:
 
 ```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+npm run typeorm migration:run
 ```
 
-## Support
+5. Iniciar el servidor
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+Inicia el servidor de desarrollo con el siguiente comando:
 
-## Stay in touch
+```bash
+npm run start:dev
+```
+El servidor debería estar corriendo en http://localhost:3000.
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+## Endpoints disponibles
 
-## License
+### Autenticación JWT
 
-Nest is [MIT licensed](LICENSE).
+#### Login (Obtener token)
+
+POST /auth/login
+
+Body:
+
+```json
+{
+"username": "testuser",
+"password": "testpassword"
+}
+```
+
+Respuesta exitosa:
+
+```json
+{
+"access_token": "token_jwt_aquí"
+}
+```
+
+#### Obtener perfil autenticado
+
+GET /auth/profile
+
+Headers:
+
+```json
+{
+"Authorization": "Bearer <tu_token>"
+}
+```
+
+### Usuarios
+
+#### Crear usuario
+
+POST /user
+
+Body:
+
+```json
+{
+"username": "nuevo_usuario",
+"password": "contrasena",
+"active": true
+}
+```
+
+#### Obtener todos los usuarios
+
+ 
+GET /user
+
+### Categorías
+
+#### Crear una categoría
+
+POST /categories
+
+Body:
+
+```json
+{
+"description": "Entretenimiento"
+}
+```
+Headers:
+
+```json
+{
+"Authorization": "Bearer <tu_token>"
+}
+```
+
+#### Obtener todas las categorías
+
+GET /categories
+
+Headers:
+
+```json
+{
+"Authorization": "Bearer <tu_token>"
+}
+```
+
+#### Obtener una categoría por ID
+
+  
+
+GET /categories/:id
+
+Headers:
+
+```json
+{
+"Authorization": "Bearer <tu_token>"
+}
+```
+
+#### Actualizar una categoría
+  
+PUT /categories/:id
+
+Body:
+
+```json
+{
+"description": "Salud"
+}
+```
+Headers:
+
+```json
+{
+"Authorization": "Bearer <tu_token>"
+}
+```
+#### Eliminar una categoría
+
+DELETE /categories/:id
+
+Headers:
+
+```json
+
+{
+"Authorization": "Bearer <tu_token>"
+}
+```
+### Transacciones
+
+#### Crear una transacción
+
+
+POST /transactions
+
+Body:
+
+```json
+
+{
+"amount": 100,
+"date": "2024-09-10",
+"description": "Compra de alimentos",
+"user": 1,
+"category": 1
+}
+
+Headers:
+
+```json
+{
+"Authorization": "Bearer <tu_token>"
+}
+```
+#### Obtener todas las transacciones
+
+GET /transactions
+
+Headers:
+
+```json
+{
+"Authorization": "Bearer <tu_token>"
+}
+```
+#### Obtener una transacción por ID
+
+GET /transactions/:id
+
+Headers:
+
+```json
+{
+"Authorization": "Bearer <tu_token>"
+}
+```
+
+#### Actualizar una transacción  
+
+PUT /transactions/:id
+
+Body:
+
+```json
+{
+"amount": 150,
+"date": "2024-09-11",
+"description": "Compra de ropa",
+"user": 1,
+"category": 2
+}
+```
+Headers:
+
+```json
+{
+"Authorization": "Bearer <tu_token>"
+}
+```
+#### Eliminar una transacción
+
+DELETE /transactions/:id
+
+Headers:
+
+``` json
+{
+"Authorization": "Bearer <tu_token>"
+}
+```
+## Probar con Postman
+
+Puedes probar todos los endpoints utilizando Postman. Para simplificar la configuración, incluye una colección de Postman que ya tiene todos los endpoints preparados.
+
+
+- Importa la colección JSON proporcionada en Postman.
+
+- Configura la variable baseUrl con la URL donde está corriendo tu API (por ejemplo, http://localhost:3000).
+
+- Realiza el Login primero para obtener el token JWT y configúralo en la variable token en Postman.
+
+A partir de ahí, puedes probar todos los demás endpoints agregando el token a la cabecera Authorization.
+
+## Swagger
+
+Esta API está documentada utilizando Swagger. Una vez que el servidor esté corriendo, puedes acceder a la documentación en:
+
+
+```bash
+http://localhost:3000/api
+```
+Swagger te permitirá interactuar con los endpoints directamente desde el navegador.
