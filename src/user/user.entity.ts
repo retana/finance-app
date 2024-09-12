@@ -14,4 +14,7 @@ export class User {
 
     @OneToMany(()=> Transaction, (transction)=> transction.user)
     transactions: [];
+
+    @Column()
+    avatar: string;
 }

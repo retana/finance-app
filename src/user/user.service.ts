@@ -2,6 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { User } from './user.entity';
 import { Repository } from 'typeorm';
+import { EncryptService } from 'src/shared/encrypt.service';
 
 //ORM - Object Relational Mapping
 
@@ -9,7 +10,8 @@ import { Repository } from 'typeorm';
 export class UserService {
     constructor(
         @InjectRepository(User)
-        private userRepository: Repository<User>
+        private userRepository: Repository<User>,
+        private readonly encryptService: EncryptService,
     ){
 
     }
@@ -22,6 +24,8 @@ export class UserService {
     }
 
     async create(item: Partial<User>):Promise<User>{
+        const hashedPassword = await this.encryptService.hashPassword(item.password);
+        item.password = hashedPassword;
         const newItem = this.userRepository.create(item);
         return await this.userRepository.save(newItem);
     }

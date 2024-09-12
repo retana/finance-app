@@ -10,6 +10,7 @@ import { Transaction } from './transaction/transaction.entity';
 import { CategoryService } from './category/category.service';
 import { CategoryModule } from './category/category.module';
 import { Category } from './category/category.entity';
+import { EncryptService } from './shared/encrypt.service';
 
 @Module({
   imports: [
