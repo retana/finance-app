@@ -14,8 +14,13 @@ import {
     constructor(private jwtService: JwtService) {}
   
     async canActivate(context: ExecutionContext): Promise<boolean> {
+      const excludedRoutes = ['/auth/login'];
       const request = context.switchToHttp().getRequest();
       const token = this.extractTokenFromHeader(request);
+      const url = request.url;
+      if (excludedRoutes.includes(url)) {
+        return true;
+      }
       if (!token) {
         throw new UnauthorizedException();
       }

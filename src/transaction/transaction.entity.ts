@@ -6,7 +6,7 @@ import { Column, Entity, ManyToOne, PrimaryGeneratedColumn } from "typeorm";
 export class Transaction {
     @PrimaryGeneratedColumn('increment')
     id: number;
-    @Column({unique: true})
+    @Column({unique: false})
     amount: number;
     @Column()
     date: Date;
